@@ -103,7 +103,11 @@ const app = new Vue({
     doRemove: function (item) {
       var index = this.todos.indexOf(item)
       this.todos.splice(index, 1)
-    }
-
+    },
   }
 })
+
+
+
+
+
