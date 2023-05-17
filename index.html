@@ -10,7 +10,7 @@
 <body>
 
   <div id="app">
-    <h1>Godzillaa 専用サイト</h1>
+    <h1>Godzilla 練習サイト</h1>
 
     <!-- ★STEP11 -->
     <label v-for="label in options" >
@@ -30,6 +30,7 @@
           <th class="comment">歌詞</th>
           <th class="state">状態</th>
           <th class="button">-</th>
+          <th class="img">写真メモ</th>
         </tr>
       </thead>
 
@@ -53,6 +54,12 @@
               削除
             </button>
           </td>
+          <td class="img">
+            <div class="card-body">
+              <h4 class="card-title">画像を選んでください。</h4>
+              <input v-on:click="onFileChange" type="file" accept="image/*"> <!----> <!---->
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -68,6 +75,7 @@
     </form>
 
     <!-- 音声ボタンのモック -->
+    <br>
     <button onclick="location.href='./audio.html'">今の実力を確認しよう</button>
 
   </div>

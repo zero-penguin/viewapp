@@ -6,13 +6,24 @@ var todoStorage = {
   fetch: function () {
     var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
     todos.forEach(function (todo, index) {
-      todo.id = index
+    todo.id = index
     })
+
+    var images = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    images.forEach(function (images, index) {
+    images.id = index
+    })
+
     todoStorage.uid = todos.length
-    return todos
+
+    todoStorage.uid = images.length
+    return todos, images
   },
-  save: function (todos) {
+  save_todos: function (todos) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+  },
+  save_images: function (images) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(images))
   }
 }
 
@@ -24,6 +35,10 @@ const app = new Vue({
   data: {
     // ★STEP5 localStorage から 取得した ToDo のリスト
     todos: [],
+
+    data: {
+      images: ''
+    },
     // ★STEP11 抽出しているToDoの状態
     current: -1,
     // ★STEP11＆STEP13 各状態のラベル
@@ -59,7 +74,7 @@ const app = new Vue({
     todos: {
       // 引数はウォッチしているプロパティの変更後の値
       handler: function (todos) {
-        todoStorage.save(todos)
+        todoStorage.save_todos(todos)
       },
       // deep オプションでネストしているデータも監視できる
       deep: true
@@ -70,6 +85,7 @@ const app = new Vue({
   created() {
     // インスタンス作成時に自動的に fetch() する
     this.todos = todoStorage.fetch()
+    this.images = todoStorage.fetch()
   },
 
   methods: {
@@ -104,6 +120,23 @@ const app = new Vue({
       var index = this.todos.indexOf(item)
       this.todos.splice(index, 1)
     },
+
+    onFileChange(e) {
+
+      const files = e.target.files;
+
+      if(files.length > 0) {
+
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+
+          this.images = e.target.result;
+
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 })
 
